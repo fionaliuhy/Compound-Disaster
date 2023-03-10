@@ -1,4 +1,4 @@
-# Compound-Disaster
+# Data and code for: Lagging recovery of human mobility under the compounding epidemic and extreme weather events.
 
 Data and code to support Liu et al., (2023). Lagging recovery of human mobility under the compounding epidemic and extreme weather events. 
 

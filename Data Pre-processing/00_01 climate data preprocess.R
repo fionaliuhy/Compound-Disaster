@@ -52,7 +52,12 @@ prec2 <- prec%>%
   summarize(mean=mean(PREC),sd=sd(PREC))
 summary(prec2)
 prec2$time<-as.character(prec2$time,format='%m%d') 
-fwrite(prec2, 'prec-daily average(normal&sd).csv', row.names = F)
+# fwrite(prec2, 'prec-daily average(normal&sd).csv', row.names = F)
+
+prec3 <- prec%>%
+  group_by(city_code)%>%
+  summarize(high=quantile(PREC,0.9),high99=quantile(PREC,0.99),high999=quantile(PREC,0.999))
+summary(prec3)
 
 precbase<-prec[prec$DATE>20130429&prec$DATE<20140430,]
 precbase$base<-precbase$PREC
@@ -110,6 +115,7 @@ prec$date <-ymd(prec$DATE)
 prec$time<-as.character(prec$date,format='%m%d') 
 prec$city_code <- as.integer(prec$city_code)
 prec <- merge(prec, prec2, by=c('city_code', 'time'), all.x=T)
+prec <- merge(prec, prec3, by=c('city_code'), all.x=T)
 prec$anomaly <- prec$PREC-prec$mean
 prec$anomaly[is.na(prec$anomaly)==T]<-0
 summary(prec$anomaly)
@@ -122,6 +128,7 @@ prec<-merge(prec,precbase, by=c('city_code', 'time'), all.x=T)
 prec$vari <- prec$PREC-prec$base
 summary(prec$vari)
 fwrite(prec, 'precanomaly-daily 20-22.csv', row.names = F)
+
 
 
 ggplot(prec,aes(anomalys))+
@@ -185,6 +192,117 @@ temp2 <- temp%>%
   group_by(city_code,time)%>%
   summarize(mean=mean(TEMP),sd=sd(TEMP))
 fwrite(temp2, 'temp-daily average(normal&sd).csv', row.names = F)
+
+
+temph90 <- fread("1990dailytmax.csv", header = T)
+temph91 <- fread("1991dailytmax.csv", header = T)
+temph92 <- fread("1992dailytmax.csv", header = T)
+temph93 <- fread("1993dailytmax.csv", header = T)
+temph94 <- fread("1994dailytmax.csv", header = T)
+temph95 <- fread("1995dailytmax.csv", header = T)
+temph96 <- fread("1996dailytmax.csv", header = T)
+temph97 <- fread("1997dailytmax.csv", header = T)
+temph98 <- fread("1998dailytmax.csv", header = T)
+temph99 <- fread("1999dailytmax.csv", header = T)
+temph00 <- fread("2000dailytmax.csv", header = T)
+temph01 <- fread("2001dailytmax.csv", header = T)
+temph02 <- fread("2002dailytmax.csv", header = T)
+temph03 <- fread("2003dailytmax.csv", header = T)
+temph04 <- fread("2004dailytmax.csv", header = T)
+temph05 <- fread("2005dailytmax.csv", header = T)
+temph06 <- fread("2006dailytmax.csv", header = T)
+temph07 <- fread("2007dailytmax.csv", header = T)
+temph08 <- fread("2008dailytmax.csv", header = T)
+temph09 <- fread("2009dailytmax.csv", header = T)
+temph10 <- fread("2010dailytmax.csv", header = T)
+temph11 <- fread("2011dailytmax.csv", header = T)
+temph12 <- fread("2012dailytmax.csv", header = T)
+temph13 <- fread("2013dailytmax.csv", header = T)
+temph14 <- fread("2014dailytmax.csv", header = T)
+temph15 <- fread("2015dailytmax.csv", header = T)
+temph16 <- fread("2016dailytmax.csv", header = T)
+temph17 <- fread("2017dailytmax.csv", header = T)
+temph18 <- fread("2018dailytmax.csv", header = T)
+temph19 <- fread("2019dailytmax.csv", header = T)
+
+temph <- rbind(temph90, temph91, temph92, temph93, temph94, temph95, temph96, temph97,temph98, temph99,
+              temph00, temph01, temph02, temph03, temph04, temph05, temph06, temph07,temph08, temph09,
+              temph10, temph11, temph12, temph13, temph14, temph15, temph16, temph17,temph18, temph19)
+colnames(temph) <- c('id','city_code', 'city_name', 'DATE', 'TMAX')
+temph <- temph[,c('city_code', 'DATE', 'TMAX')]
+
+temph$TMAX <- (temph$TMAX-32)*5/9
+head(temph)
+temph$city_code <- as.integer(temph$city_code)
+summary(temph$TMAX)
+
+temph$date <-ymd(temph$DATE)
+temph$time<-as.character(temph$date,format='%m%d') 
+
+tempipcch <- temph%>%
+  group_by(city_code)%>%
+  summarize(high=quantile(TMAX,0.9),highl=quantile(TMAX,0.1))
+summary(tempipcch)
+
+tempipcchd <- temph%>%
+  group_by(city_code,time)%>%
+  summarize(highd=quantile(TMAX,0.9),highld=quantile(TMAX,0.1))
+summary(tempipcchd)
+
+templ90 <- fread("1990dailytmin.csv", header = T)
+templ91 <- fread("1991dailytmin.csv", header = T)
+templ92 <- fread("1992dailytmin.csv", header = T)
+templ93 <- fread("1993dailytmin.csv", header = T)
+templ94 <- fread("1994dailytmin.csv", header = T)
+templ95 <- fread("1995dailytmin.csv", header = T)
+templ96 <- fread("1996dailytmin.csv", header = T)
+templ97 <- fread("1997dailytmin.csv", header = T)
+templ98 <- fread("1998dailytmin.csv", header = T)
+templ99 <- fread("1999dailytmin.csv", header = T)
+templ00 <- fread("2000dailytmin.csv", header = T)
+templ01 <- fread("2001dailytmin.csv", header = T)
+templ02 <- fread("2002dailytmin.csv", header = T)
+templ03 <- fread("2003dailytmin.csv", header = T)
+templ04 <- fread("2004dailytmin.csv", header = T)
+templ05 <- fread("2005dailytmin.csv", header = T)
+templ06 <- fread("2006dailytmin.csv", header = T)
+templ07 <- fread("2007dailytmin.csv", header = T)
+templ08 <- fread("2008dailytmin.csv", header = T)
+templ09 <- fread("2009dailytmin.csv", header = T)
+templ10 <- fread("2010dailytmin.csv", header = T)
+templ11 <- fread("2011dailytmin.csv", header = T)
+templ12 <- fread("2012dailytmin.csv", header = T)
+templ13 <- fread("2013dailytmin.csv", header = T)
+templ14 <- fread("2014dailytmin.csv", header = T)
+templ15 <- fread("2015dailytmin.csv", header = T)
+templ16 <- fread("2016dailytmin.csv", header = T)
+templ17 <- fread("2017dailytmin.csv", header = T)
+templ18 <- fread("2018dailytmin.csv", header = T)
+templ19 <- fread("2019dailytmin.csv", header = T)
+
+templ <- rbind(templ90, templ91, templ92, templ93, templ94, templ95, templ96, templ97,templ98, templ99,
+               templ00, templ01, templ02, templ03, templ04, templ05, templ06, templ07,templ08, templ09,
+               templ10, templ11, templ12, templ13, templ14, templ15, templ16, templ17,templ18, templ19)
+colnames(templ) <- c('id','city_code', 'city_name', 'DATE', 'TMIN')
+templ <- templ[,c('city_code', 'DATE', 'TMIN')]
+
+templ$TMIN <- (templ$TMIN-32)*5/9
+head(templ)
+templ$city_code <- as.integer(templ$city_code)
+summary(templ$TMIN)
+
+templ$date <-ymd(templ$DATE)
+templ$time<-as.character(templ$date,format='%m%d') 
+
+tempipccl <- templ%>%
+  group_by(city_code)%>%
+  summarize(low=quantile(TMIN,0.1),lowh=quantile(TMIN,0.9))
+summary(tempipccl)
+
+tempipccld <- templ%>%
+  group_by(city_code,time)%>%
+  summarize(lowd=quantile(TMIN,0.1),lowhd=quantile(TMIN,0.9))
+summary(tempipccld)
 
 temp20 <- fread("2020dailytemp.csv", header = T)
 colnames(temp20) <- c('id','city_code', 'city_name', 'DATE', 'TEMP')
@@ -287,36 +405,49 @@ tmax <- rbind(tmax20,tmax21,tmaxnew,tmax22)
 
 temp <- merge(temp3, tmax, by=c('city_code', 'DATE'), all.x=T)
 
-# tmin20 <- fread("2020dailytmin.csv", header = T)
-# colnames(tmin20) <- c('id','city_code', 'city_name', 'DATE', 'Tmin')
-# tmin20<- tmin20[,c('city_code', 'DATE', 'Tmin')]
-# cities <- unique(tmin20$city_code)
-# tmin20$Tmin <- (tmin20$Tmin-32)*5/9
+tmin20 <- fread("2020dailytmin.csv", header = T)
+colnames(tmin20) <- c('id','city_code', 'city_name', 'DATE', 'Tmin')
+tmin20<- tmin20[,c('city_code', 'DATE', 'Tmin')]
+cities <- unique(tmin20$city_code)
+tmin20$Tmin <- (tmin20$Tmin-32)*5/9
+
+tmin21 <- fread("2021dailytmin.csv", header = T)
+colnames(tmin21) <- c('id','city_code', 'city_name', 'DATE', 'Tmin')
+tmin21<- tmin21[,c('city_code', 'DATE', 'Tmin')]
+cities <- unique(tmin21$city_code)
+tmin21$Tmin <- (tmin21$Tmin-32)*5/9
 # 
-# tmin21 <- fread("2021dailytmin.csv", header = T)
-# colnames(tmin21) <- c('id','city_code', 'city_name', 'DATE', 'Tmin')
-# tmin21<- tmin21[,c('city_code', 'DATE', 'Tmin')]
-# cities <- unique(tmin21$city_code)
-# tmin21$Tmin <- (tmin21$Tmin-32)*5/9
-# 
-# tmin0211 <- read_excel("0211min.xls")
-# tmin0211$DATE <- 20210211
-# tmin0212 <- read_excel("0212min.xls")
-# tmin0212$DATE <- 20210212
-# tmin0220 <- read_excel("0220min.xls")
-# tmin0220$DATE <- 20210220
-# tminnew <- rbind(tmin0211, tmin0212,tmin0220)
-# colnames(tminnew) <- c('id','city_code', 'zone_code','Count', 'area','Tmin','DATE')
-# tminnew<- tminnew[,c('city_code', 'DATE', 'Tmin')]
-# tminnew$city_code <- as.numeric(tminnew$city_code)
-# tminnew$Tmin <- tminnew$Tmin-273.15
-# 
-# tmin <- rbind(tmin20, tmin21,tminnew)
-# 
-# temp <- merge(temp, tmin, by=c('city_code', 'DATE'), all.x=T)
+tmin0211 <- read_excel("0211min.xls")
+tmin0211$DATE <- 20210211
+tmin0212 <- read_excel("0212min.xls")
+tmin0212$DATE <- 20210212
+tmin0220 <- read_excel("0220min.xls")
+tmin0220$DATE <- 20210220
+tminnew <- rbind(tmin0211, tmin0212,tmin0220)
+colnames(tminnew) <- c('id','city_code', 'zone_code','Count', 'area','Tmin','DATE')
+tminnew<- tminnew[,c('city_code', 'DATE', 'Tmin')]
+tminnew$city_code <- as.numeric(tminnew$city_code)
+tminnew$Tmin <- tminnew$Tmin-273.15
+
+tmin22 <- fread("2022dailytmin.csv", header = T)
+colnames(tmin22) <- c('id','city_code', 'city_name', 'DATE', 'Tmin')
+tmin22 <- tmin22[,c('city_code', 'DATE', 'Tmin')]
+cities <- unique(tmin22$city_code)
+tmin22$Tmin <- (tmin22$Tmin-32)*5/9
+summary(tmin22)
+
+tmin <- rbind(tmin20, tmin21,tminnew,tmin22)
+
+temp <- merge(temp, tmin, by=c('city_code', 'DATE'), all.x=T)
 
 temp<-merge(temp, tempbase, by=c('city_code', 'time'), all.x=T)
 temp$vari<-temp$TEMP-temp$base
+
+temp<-merge(temp, tempipcch, by=c('city_code'), all.x=T)
+temp<-merge(temp, tempipcchd, by=c('city_code', 'time'), all.x=T)
+
+temp<-merge(temp, tempipccl, by=c('city_code'), all.x=T)
+temp<-merge(temp, tempipccld, by=c('city_code', 'time'), all.x=T)
 
 fwrite(temp, 'tempanomaly-daily 20-22.csv', row.names = F)
 

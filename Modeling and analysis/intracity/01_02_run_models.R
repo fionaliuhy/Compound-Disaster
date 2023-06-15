@@ -149,6 +149,7 @@ fwrite(table1, file = "output21/best_model_selection1.csv", quote = FALSE,
 f1.4 <- update.formula(baseformula, ~. + basis_cases2+Vt)
 f1.41 <- update.formula(baseformula, ~. + basis_cases2+Vtmax)
 f1.42 <- update.formula(baseformula, ~. + basis_cases2+Vta)
+f1.43 <- update.formula(baseformula, ~. + basis_cases2+Vtmin)
 
 f1.5 <- update.formula(baseformula, ~. + basis_cases2+Vp)
 f1.51 <- update.formula(baseformula, ~. + basis_cases2+Vpa)
@@ -156,10 +157,10 @@ f1.51 <- update.formula(baseformula, ~. + basis_cases2+Vpa)
 f1.6 <- update.formula(baseformula, ~. + basis_cases2+Vtmax+Vpa)
 
 # create a list of formulas
-formulas <- list(f1.4,f1.41,f1.42,f1.5,f1.51,f1.6)
+formulas <- list(f1.4,f1.41,f1.42,f1.43,f1.5,f1.51,f1.6)
 
 # create model label string
-lab <- c("model_1.4","model_1.41","model_1.42","model_1.5","model_1.51","model_1.6")
+lab <- c("model_1.4","model_1.41","model_1.42","model_1.43","model_1.5","model_1.51","model_1.6")
 
 # create a function to run a model for each formula in the list and save the model output to file
 # WARNING: this may take a long time to run
@@ -169,7 +170,7 @@ models <- lapply(1:length(formulas),
                    save(model, file = paste0("output21/", lab[i],".RData"))})
 
 # create table to store DIC and select best model
-table2 <- data.table(Model  =  c("model_1.4","model_1.41","model_1.42","model_1.5","model_1.51","model_1.6"),
+table2 <- data.table(Model  =  c("model_1.4","model_1.41","model_1.42","model_1.43","model_1.5","model_1.51","model_1.6"),
                      DIC = NA,
                      logscore = NA)
 
@@ -198,9 +199,18 @@ f2.10 <- update.formula(baseformula, ~. + basis_cases2+temp_low_cases+Vtmax)
 # f2.11 <- update.formula(baseformula, ~. + basis_cases2+temp_aver_cases+Vtmax)
 f2.12 <- update.formula(baseformula, ~. + basis_cases2+temp_high_cases+Vtmax)
 
+f2.13 <- update.formula(baseformula, ~. + basis_cases2 + tempi_low_cases+Vtmax)
+f2.14 <- update.formula(baseformula, ~. + basis_cases2 + tempi_high_cases+Vtmax)
+
+f2.15 <- update.formula(baseformula, ~. + basis_cases2 + tempid_low_cases+Vtmax)
+f2.16 <- update.formula(baseformula, ~. + basis_cases2 + tempid_high_cases+Vtmax)
+
+
 f2.20 <- update.formula(baseformula, ~. + basis_cases2 +preca_0_cases+Vpa)
 f2.21 <- update.formula(baseformula, ~. + basis_cases2 +preca_high_cases+Vpa)
 f2.22 <- update.formula(baseformula, ~. + basis_cases2 +preca_high2_cases+Vpa)
+f2.23 <- update.formula(baseformula, ~. + basis_cases2 +precai_high_cases+Vpa)
+f2.24 <- update.formula(baseformula, ~. + basis_cases2 +precai2_high_cases+Vpa)
 
 # f2.30 <- update.formula(baseformula, ~. + basis_cases2+basis_policy+temp_low_policy+Vtmax)
 # f2.31 <- update.formula(baseformula, ~. + basis_cases2+basis_policy+ temp_aver_policy+Vtmax)
@@ -209,10 +219,11 @@ f2.22 <- update.formula(baseformula, ~. + basis_cases2 +preca_high2_cases+Vpa)
 # f2.40 <- update.formula(baseformula, ~. + basis_cases2 +basis_policy+ preca_0_policy+Vpa)
 # f2.41 <- update.formula(baseformula, ~. + basis_cases2 +basis_policy+ preca_high_policy+Vpa)
 
-formulas <- list(f2.10,f2.12,f2.20,f2.21,f2.22)
-
+formulas <- list(f2.10,f2.12,f2.13,f2.14,f2.15,f2.16,f2.20,f2.21,f2.22,f2.23,f2.24)
+formulas <- list(f2.23,f2.24)
 # create model label string
-lab <- c("model_2.10","model_2.12","model_2.20","model_2.21","model_2.22")
+lab <- c("model_2.10","model_2.12","model_2.13","model_2.14","model_2.15","model_2.16","model_2.20","model_2.21","model_2.22","model_2.23","model_2.24")
+lab <- c("model_2.23","model_2.24")
 
 # # create a function to run a model for each formula in the list and save the model output to file
 # # WARNING: this may take a long time to run
@@ -222,7 +233,7 @@ models <- lapply(1:length(formulas),
                 save(model, file = paste0("output21/", lab[i],".RData"))})
 
 # create table to store DIC and select best model
-table3 <- data.table(Model  =  c("model_2.10","model_2.12","model_2.20","model_2.21","model_2.22"),
+table3 <- data.table(Model  =  c("model_2.10","model_2.12","model_2.13","model_2.14","model_2.15","model_2.16","model_2.20","model_2.21","model_2.22","model_2.23","model_2.24"),
                      DIC = NA,
                      logscore = NA)
 

@@ -5,13 +5,19 @@ source("00_load_packages_data.R")
 
 #### plot lag response associations for incidence interacted with extreme weather conditions
 # load best fitting model with basis_incidence
-load("output21/model_1.1.RData")
+load("output20/model_1.3.RData")
 model0.0 <- model
 # extreme weather
-load("output21/model_2.10.RData")
+load("output20/model_2.10.RData")
 model1.1 <- model
-load("output21/model_2.12.RData")
+load("output20/model_2.12 10.RData")
 model1.2 <- model
+
+load("output21/model_2.13.RData")
+model1.1 <- model
+load("output21/model_2.14.RData")
+model1.2 <- model
+
 #extreme precipitation anomaly
 load("output21/model_2.21.RData")
 model1.3 <- model
@@ -73,17 +79,17 @@ write.csv(table1, file = "fig21/table intra incidence sr.csv", quote = FALSE, ro
 
 #### plot lag response associations for incidence interacted with heat and density
 
-load("output21/model_3.10.RData")
+load("output21/model_3.102.RData")
 model0 <- model
-load("output21/model_3.11.RData")
+load("output21/model_3.112.RData")
 model1.1 <- model
-load("output21/model_3.12.RData")
+load("output21/model_3.122.RData")
 model1.2 <- model
-load("output21/model_3.13.RData")
+load("output21/model_3.132.RData")
 model1.3 <- model
 
 # create model name and label strings
-mod.name <- c("model0 ","model1.1", "model1.2","model1.3")
+mod.name <- c("model1.1","model1.1", "model1.2","model1.3")
 lab <- c("a", "b", "c","d") 
 
 table1 <- as.data.frame(matrix(NA, 4, 4))
@@ -118,9 +124,9 @@ for (j in 1:length(mod.name))
   srb.lci[srb.lci<0]<-0
   
   ### could set fixed incidence here
-  # srb<-srb[,1:10]
-  # srb.uci<-srb.uci[,1:10]
-  # srb.lci<-srb.lci[,1:10]
+  srb<-srb[,1:10]
+  srb.uci<-srb.uci[,1:10]
+  srb.lci<-srb.lci[,1:10]
   
   
   # get exposures values
@@ -135,11 +141,11 @@ write.csv(table1, file = "fig21/intra high incid temp+dens.csv", quote = FALSE, 
 
 
 #### plot lag response associations for incidence interacted with heat and gdp
-load("output21/model_4.10.RData")
+load("output21/model_4.102.RData")
 model1.0 <- model
-load("output21/model_4.11.RData")
+load("output21/model_4.112.RData")
 model1.1 <- model
-load("output21/model_4.12.RData")
+load("output21/model_4.122.RData")
 model1.2 <- model
 
 mod.name <- c("model1.0","model1.1", "model1.2")
@@ -175,9 +181,9 @@ for (j in 1:length(mod.name))
   srb.uci[srb.uci<0]<-0
   srb.lci[srb.lci<0]<-0
  ###could set fixed incidence here
-  # srb<-srb[,1:10]
-  # srb.uci<-srb.uci[,1:10]
-  # srb.lci<-srb.lci[,1:10]
+  srb<-srb[,1:10]
+  srb.uci<-srb.uci[,1:10]
+  srb.lci<-srb.lci[,1:10]
   
   
   # get exposures values

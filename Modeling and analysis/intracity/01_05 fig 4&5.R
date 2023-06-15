@@ -12,34 +12,57 @@ model1.1 <- model
 load("output21/model_2.12.RData")
 model1.2 <- model
 
+load("output21/model_1.1.RData")
+model1.0 <- model
+load("output21/model_2.13.RData")
+model1.1 <- model
+load("output21/model_2.14.RData")
+model1.2 <- model
+
+
+load("output21/model_1.1.RData")
+model1.0 <- model
+load("output21/model_2.15.RData")
+model1.1 <- model
+load("output21/model_2.16.RData")
+model1.2 <- model
+
+
 ###epidemic model+extreme preca
 load("output21/model_1.1.RData")
 model1.0 <- model
-load("output21/model_2.22.RData")
+load("output21/model_2.23.RData")
 model1.1 <- model
-load("output21/model_2.21.RData")
+load("output21/model_2.24.RData")
 model1.2 <- model
 
 
-####density
-load("output21/model_3.11.RData")
+load("output21/model_1.1.RData")
 model1.0 <- model
-load("output21/model_3.12.RData")
+load("output21/model_2.20.RData")
 model1.1 <- model
-load("output21/model_3.13.RData")
+load("output21/model_2.23.RData")
+model1.2 <- model
+
+####density
+load("output21/model_3.112.RData")
+model1.0 <- model
+load("output21/model_3.122.RData")
+model1.1 <- model
+load("output21/model_3.132.RData")
 model1.2 <- model
 
 #######gdp
-load("output21/model_4.10.RData")
+load("output21/model_4.102.RData")
 model1.0 <- model
-load("output21/model_4.11.RData")
+load("output21/model_4.112.RData")
 model1.1 <- model
-load("output21/model_4.12.RData")
+load("output21/model_4.122.RData")
 model1.2 <- model
 
 
 
-pdf("fig21/intra inci preca.pdf", width = 18, height = 6)
+pdf("fig21/intra inci gdp.pdf", width = 18, height = 6)
 par(mfrow = c(1,3))
 mod.name<-c("model1.0","model1.1","model1.2")
 lab <- c("a", "b","c")
@@ -47,7 +70,7 @@ lab <- c("a", "b","c")
 table1 <- as.data.frame(matrix(NA, 3, 5))
 colnames(table1) <- c("Setting", 
                       "lag", "sr", "lci","uci")
-table1[,1] <- c("norm","20","50")
+table1[,1] <- c("norm","low","high")
 
 j=1
 for (j in c(1,2,3))
@@ -116,7 +139,7 @@ for (j in c(1,2,3))
   table1$uci[j] <- round(max(sr.uci[24,]), 2)
 }
 dev.off() 
-write.csv(table1, file = "fig21/intra_lag_preca.csv", quote = FALSE, row.names= FALSE)
+write.csv(table1, file = "fig21/intra_inci gdp.csv", quote = FALSE, row.names= FALSE)
 
 
 

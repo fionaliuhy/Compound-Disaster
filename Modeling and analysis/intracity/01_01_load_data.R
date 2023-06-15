@@ -18,7 +18,7 @@ packages <- c("data.table", "tidyverse", "sf", "sp", "spdep",
 lapply(packages, library, character.only = TRUE)
 
 ## load data (could be replaced by data for oct 2020-jan 2021)
-data_all <- read.csv("data/test data/data_all21.csv", header = T)
+data_all <- read.csv("data/test data/data_all21[m].csv", header = T)
 
 # load shape file 
 map_all <- read_sf("data/city_cn/city_cn.shp")
@@ -80,24 +80,40 @@ basis_policy <- crossbasis(var,
 head(basis_policy)
 
 
-##test linear interaction with extreme weather
+##set extreme weather events
 
 temp_high <- data$Tmax-35
 temp_low <- data$Tmax-4
+# temp_aver<-data$Tmax - 22.76
+
+tempi_high<-data$Tmax-data$ipcctemph
+tempi_low<-data$Tmax-data$ipcctempl
+
+tempid_high<-data$Tmax-data$ipcctemphd
+tempid_low<-data$Tmax-data$ipcctempld
 
 preca_high <- data$PRECa-50
 preca_high2 <- data$PRECa-20
-preca<- data$PRECa-0
+preca<-data$PRECa
 
+precai_high <- data$PRECa-data$ipccprec99
+precai2_high <- data$PRECa-data$ipccprec999
+##test linear interaction with extreme weather
 
 temp_high_cases<- basis_cases2*temp_high
 temp_low_cases<- basis_cases2*temp_low
 
+tempi_high_cases<- basis_cases2*tempi_high
+tempi_low_cases<- basis_cases2*tempi_low
+
+tempid_high_cases<- basis_cases2*tempid_high
+tempid_low_cases<- basis_cases2*tempid_low
+
 preca_high_cases<-basis_cases2*preca_high
 preca_high2_cases<-basis_cases2*preca_high2
 preca_0_cases<-basis_cases2*preca
-
-
+precai_high_cases<-basis_cases2*precai_high
+precai2_high_cases<-basis_cases2*precai2_high
 ##test linear interaction with different socioeconomic levels
 
 dens_ind1 <- data$density - quantile(data$density, p = 0.75) # high 
@@ -125,17 +141,18 @@ temp_high_cases_gdp3<- basis_cases2*temp_high*gdp_ind3
 colnames(basis_cases2) = paste0("basis_cases2.", colnames(basis_cases2))
 colnames(basis_policy) = paste0("basis_policy.", colnames(basis_policy))
 
-colnames(dens_basis1_cases) = paste0("dens_basis1_cases.", colnames(dens_basis1_cases))
-colnames(dens_basis2_cases) = paste0("dens_basis2_cases.", colnames(dens_basis2_cases))
-colnames(dens_basis3_cases) = paste0("dens_basis3_cases.", colnames(dens_basis3_cases))
-colnames(dens_basis4_cases) = paste0("dens_basis4_cases.", colnames(dens_basis4_cases))
-
 colnames(temp_high_cases) = paste0("temp_high_cases.", colnames(temp_high_cases))
 colnames(temp_low_cases) = paste0("temp_low_cases.", colnames(temp_low_cases))
+colnames(tempi_high_cases) = paste0("tempi_high_cases.", colnames(tempi_high_cases))
+colnames(tempi_low_cases) = paste0("tempi_low_cases.", colnames(tempi_low_cases))
+colnames(tempid_high_cases) = paste0("tempid_high_cases.", colnames(tempid_high_cases))
+colnames(tempid_low_cases) = paste0("tempid_low_cases.", colnames(tempid_low_cases))
 
 colnames(preca_high_cases) = paste0("preca_high_cases.", colnames(preca_high_cases))
 colnames(preca_high2_cases) = paste0("preca_high2_cases.", colnames(preca_high2_cases))
 colnames(preca_0_cases) = paste0("preca_0_cases.", colnames(preca_0_cases))
+colnames(precai_high_cases) = paste0("precai_high_cases.", colnames(precai_high_cases))
+colnames(precai2_high_cases) = paste0("precai2_high_cases.", colnames(precai2_high_cases))
 
 colnames(temp_high_cases_dens1) = paste0("temp_high_cases_dens1.", colnames(temp_high_cases_dens1))
 colnames(temp_high_cases_dens2) = paste0("temp_high_cases_dens2.", colnames(temp_high_cases_dens2))
@@ -180,6 +197,7 @@ Vd <- data$density
 Vh <- data$holiday # holiday 
 Vt <- data$TEMP
 Vtmax <- data$Tmax
+Vtmin <- data$Tmin
 Vp<-data$PREC
 Vta<-data$TEMPa
 Vpa<-data$PRECa
@@ -187,7 +205,7 @@ Vc<-data$case2
 psi<-data$Stringency
 
 # create dataframe for model testing
-df <- data.frame(Y, T1, T2, S1, S2, Vu, Vg, Vd ,Vh,Vt,Vp,Vta,Vpa,Vc,psi,Vtmax)
+df <- data.frame(Y, T1, T2, S1, S2, Vg, Vd ,Vh,Vt,Vp,Vta,Vpa,Vc,psi,Vtmax,Vtmin)
 head(df)
 
 # define priors

@@ -68,13 +68,13 @@ write.csv(table1, file = "fig21/ table_high incid inflow.csv", quote = FALSE, ro
 
 
 #### plot lag response associations for incidence interacted with heat and density
-load("output21/in/model_3.10.RData")
+load("output21/out/model_3.10.RData")
 model1.0 <- model
-load("output21/in/model_3.11.RData")
+load("output21/out/model_3.11.RData")
 model1.1 <- model
-load("output21/in/model_3.12.RData")
+load("output21/out/model_3.12.RData")
 model1.2 <- model
-load("output21/in/model_3.13.RData")
+load("output21/out/model_3.13.RData")
 model1.3 <- model
 
 # create model name and label strings
@@ -114,9 +114,9 @@ for (j in 1:length(mod.name))
   srb.lci[srb.lci<0]<-0
   
   ### could set fixed incidence here
-  # srb<-srb[,1:10]
-  # srb.uci<-srb.uci[,1:10]
-  # srb.lci<-srb.lci[,1:10]
+  srb<-srb[,1:7]
+  srb.uci<-srb.uci[,1:7]
+  srb.lci<-srb.lci[,1:7]
   
   # get exposures values
   table1$sr[j]  <- round(max(srb), 2)
@@ -127,11 +127,11 @@ for (j in 1:length(mod.name))
 write.csv(table1, file = "fig21/table_high incid inflow temp+dens sr.csv", quote = FALSE, row.names = FALSE)
 
 
-load("output21/in/model_4.10.RData")
+load("output21/out/model_4.10.RData")
 model1.0 <- model
-load("output21/in/model_4.11.RData")
+load("output21/out/model_4.11.RData")
 model1.1 <- model
-load("output21/in/model_4.12.RData")
+load("output21/out/model_4.12.RData")
 model1.2 <- model
 
 mod.name <- c("model1.0","model1.1", "model1.2")
@@ -169,9 +169,9 @@ for (j in 1:length(mod.name))
   srb.lci[srb.lci<0]<-0
   
   ###could set fixed incidence here
-  # srb<-srb[,1:10]
-  # srb.uci<-srb.uci[,1:10]
-  # srb.lci<-srb.lci[,1:10]
+  srb<-srb[,1:7]
+  srb.uci<-srb.uci[,1:7]
+  srb.lci<-srb.lci[,1:7]
   
   table1$sr[j]  <- round(max(srb), 2)
   table1$lci[j] <- round(max(srb.lci), 2)

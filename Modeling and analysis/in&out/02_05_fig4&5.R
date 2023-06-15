@@ -12,6 +12,21 @@ model1.1 <- model
 load("output21/in/model_2.12.RData")
 model1.2 <- model
 
+load("output21/out/model_1.3.RData")
+model1.0 <- model
+load("output21/out/model_2.13.RData")
+model1.1 <- model
+load("output21/out/model_2.14.RData")
+model1.2 <- model
+
+load("output21/out/model_1.3.RData")
+model1.0 <- model
+load("output21/out/model_2.15.RData")
+model1.1 <- model
+load("output21/out/model_2.16.RData")
+model1.2 <- model
+
+
 ###epidemic model+extreme preca
 load("output21/in/model_1.3.RData")
 model1.0<- model
@@ -22,25 +37,33 @@ model1.2 <- model
 load("output21/in/model_2.21.RData")
 model1.3 <- model
 
-####density
-load("output21/in/model_3.11.RData")
+load("output21/in/model_1.3.RData")
+model1.0<- model
+load("output21/in/model_2.23.RData")
 model1.1 <- model
-load("output21/in/model_3.12.RData")
+load("output21/in/model_2.24.RData")
+model1.2 <- model
+
+
+####density
+load("output21/in/model_3.112.RData")
+model1.1 <- model
+load("output21/in/model_3.122.RData")
 model1.2 <- model
 # load GDP interaction models
-load("output21/in/model_3.13.RData")
+load("output21/in/model_3.132.RData")
 model1.3 <- model
 
 #######gdp
-load("output21/in/model_4.10.RData")
+load("output21/in/model_4.102.RData")
 model1.1 <- model
-load("output21/in/model_4.11.RData")
+load("output21/in/model_4.112.RData")
 model1.2 <- model
 # load GDP interaction models
-load("output21/in/model_4.12.RData")
+load("output21/in/model_4.122.RData")
 model1.3 <- model
 
-pdf("fig21/in inci temp.pdf", width = 18, height = 6)
+pdf("fig21/in 只有疫情+gdp.pdf", width = 18, height = 6)
 par(mfrow = c(1,3))
 mod.name<-c("model1.0","model1.1","model1.2")
 lab <- c("a", "b","c")
@@ -114,6 +137,6 @@ for (j in c(1,2,3))
   table1$uci[j] <- round(max(sr.uci[24,]), 2)
 }
 dev.off() 
-write.csv(table1, file = "fig21/inflow table incidence temp.csv", quote = FALSE, row.names= FALSE)
+write.csv(table1, file = "fig21/inflow table incidence prec ipccd.csv", quote = FALSE, row.names= FALSE)
 
 

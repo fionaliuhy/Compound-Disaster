@@ -116,6 +116,7 @@ f1.4 <- update.formula(baseformula, ~. + basis_cases2+basis_policy+Vt)
 f1.41 <- update.formula(baseformula, ~. + basis_cases2+basis_policy+Vtmax)
 f1.42 <- update.formula(baseformula, ~. + basis_cases2+basis_policy+Vta)
 f1.43 <- update.formula(baseformula, ~. + basis_cases2+basis_policy+Vtv)
+f1.44 <- update.formula(baseformula, ~. + basis_cases2+basis_policy+Vtmin)
 
 
 f1.5 <- update.formula(baseformula, ~. + basis_cases2+basis_policy+Vp)
@@ -124,10 +125,10 @@ f1.52 <- update.formula(baseformula, ~. + basis_cases2+basis_policy+Vpv)
 
 
 # create a list of formulas
-formulas <- list(f1.4,f1.41,f1.42,f1.43,f1.5,f1.51,f1.52)
+formulas <- list(f1.4,f1.41,f1.42,f1.43,f1.44,f1.5,f1.51,f1.52)
 
 # create model label string
-lab <- c("model_1.4","model_1.41","model_1.42","model_1.43","model_1.5","model_1.51","model_1.52")
+lab <- c("model_1.4","model_1.41","model_1.42","model_1.43","model_1.44","model_1.5","model_1.51","model_1.52")
 
 # create a function to run a model for each formula in the list and save the model output to file
 # WARNING: this may take a long time to run
@@ -137,7 +138,7 @@ models <- lapply(1:length(formulas),
                 save(model, file = paste0("output21/in/", lab[i],".RData"))})
 
 # create table to store DIC and select best model
-table2 <- data.table(Model  =  c("model_1.4","model_1.41","model_1.42","model_1.43","model_1.5","model_1.51","model_1.52"),
+table2 <- data.table(Model  =  c("model_1.4","model_1.41","model_1.42","model_1.43","model_1.44","model_1.5","model_1.51","model_1.52"),
                      DIC = NA,
                      logscore = NA)
 
@@ -166,15 +167,24 @@ f2.10 <- update.formula(baseformula, ~. + basis_cases2 + basis_policy +temp_low_
 # f2.11 <- update.formula(baseformula, ~. + basis_cases2 + basis_policy +temp_aver_cases+Vtmax)
 f2.12 <- update.formula(baseformula, ~. + basis_cases2 + basis_policy +temp_high_cases+Vtmax)
 
+f2.13 <- update.formula(baseformula, ~. + basis_cases2 + basis_policy +tempi_low_cases+Vtmax)
+f2.14 <- update.formula(baseformula, ~. + basis_cases2 + basis_policy +tempi_high_cases+Vtmax)
+
+f2.15 <- update.formula(baseformula, ~. + basis_cases2 + basis_policy +tempid_low_cases+Vtmax)
+f2.16 <- update.formula(baseformula, ~. + basis_cases2 + basis_policy +tempid_high_cases+Vtmax)
+
 f2.20 <- update.formula(baseformula, ~. + basis_cases2 + basis_policy +preca_0_cases+Vpa)
 f2.21 <- update.formula(baseformula, ~. + basis_cases2 + basis_policy +preca_high_cases+Vpa)
 f2.22 <- update.formula(baseformula, ~. + basis_cases2 + basis_policy +preca_high2_cases+Vpa)
 
+f2.23 <- update.formula(baseformula, ~. + basis_cases2 + basis_policy +prec_high_cases+Vp)
+f2.24 <- update.formula(baseformula, ~. + basis_cases2 + basis_policy +prec_high2_cases+Vp)
 # create a list of formulas
-formulas <- list(f2.10,f2.11,f2.12,f2.20,f2.21,f2.22)
-
+formulas <- list(f2.10,f2.12,f2.13,f2.14,f2.15,f2.16,f2.20,f2.21,f2.22,f2.23,f2.24)
+formulas <- list(f2.23,f2.24)
 # create model label string
-lab <- c("model_2.10","model_2.11","model_2.12","model_2.20","model_2.21","model_2.22")
+lab <- c("model_2.10","model_2.12","model_2.13","model_2.14","model_2.15","model_2.16","model_2.20","model_2.21","model_2.22","model_2.23","model_2.24")
+lab <- c("model_2.23","model_2.24")
 
 # # create a function to run a model for each formula in the list and save the model output to file
 # # WARNING: this may take a long time to run
@@ -184,7 +194,7 @@ models <- lapply(1:length(formulas),
                 save(model, file = paste0("output21/in/", lab[i],".RData"))})
 
 # create table to store DIC and select best model
-table3 <- data.table(Model  =  c("model_2.10","model_2.11","model_2.12","model_2.20","model_2.21","model_2.22"),
+table3 <- data.table(Model  =  c("model_2.10","model_2.12","model_2.13","model_2.14","model_2.15","model_2.16","model_2.20","model_2.21","model_2.22","model_2.23","model_2.24"),
                      DIC = NA,
                      logscore = NA)
 
